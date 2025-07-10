@@ -1,0 +1,407 @@
+from kivymd.app import MDApp #importacao das bibliotecas em kivymd
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.label import MDLabel
+from kivymd.uix.textfield import MDTextField
+from kivymd.uix.button import MDRaisedButton, MDIconButton
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.toolbar import MDTopAppBar
+from kivymd.uix.dialog import MDDialog
+from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.screenmanager import ScreenManager, FadeTransition
+from kivy.core.window import Window
+from kivy.uix.widget import Widget
+from kivy.properties import BooleanProperty
+from kivy.animation import Animation
+from kivymd.uix.card import MDCard
+#tamanho da tela para simular uma tela de celular
+Window.size = (360, 640)
+
+#tela inicial aonde contem layout principal o titulo, a frase motivacional
+class TelaInicial(MDScreen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        layout = MDBoxLayout(
+            orientation="vertical",
+            padding=40,
+            spacing=30,
+        )
+
+        titulo = MDLabel(
+            text="FlashCards",
+            halign="center",
+            font_style="H4",
+            bold=True,
+        )
+
+        frase = MDLabel(
+            text="Estude e aprenda!",
+            halign="center",
+            font_style="Subtitle1",
+            theme_text_color="Secondary"
+        )
+
+        botao = MDRaisedButton(
+            text="Começar",
+            pos_hint={"center_x": 0.5},
+            on_release=self.ir_para_cadastro
+        )
+
+        layout.add_widget(titulo)
+        layout.add_widget(frase)
+        layout.add_widget(botao)
+
+        layout.pos_hint = {"center_y": 0.5}
+        layout.size_hint = (1, None)
+        layout.height = 300
+
+        self.add_widget(layout)
+
+    def ir_para_cadastro(self, instancia):
+        self.manager.current = "tela_cadastro"
+
+
+# a tela 2 é a tela do cadrasto aonde fica, o campo de entrada para usuario
+#botao de criar a conta, tambem tem a validacao da conta
+class TelaCadastro(MDScreen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        layout = MDBoxLayout(orientation="vertical", padding=30, spacing=20)
+
+        titulo = MDLabel(
+            text="Criar Conta",
+            halign="center",
+            font_style="H5",
+            bold=True,
+        )
+
+        self.data_nascimento = MDTextField(
+            hint_text="Data de nascimento",
+            helper_text="Ex: 15/10/2005",
+            helper_text_mode="on_focus",
+            icon_right="calendar",
+            mode="rectangle"
+        )
+
+        self.email = MDTextField(
+            hint_text="E-mail",
+            icon_right="email",
+            mode="rectangle"
+        )
+
+        self.senha = MDTextField(
+            hint_text="Senha",
+            password=True,
+            icon_right="eye-off",
+            mode="rectangle"
+        )
+
+        self.confirmar_senha = MDTextField(
+            hint_text="Confirmar Senha",
+            password=True,
+            icon_right="eye-off",
+            mode="rectangle"
+        )
+
+        self.botao_criar = MDRaisedButton(
+            text="Criar Conta",
+            pos_hint={"center_x": 0.5},
+            on_release=self.criar_conta
+        )
+
+        termos = MDLabel(
+            text="[size=12]Ao se inscrever, você aceita os [b]Termos de Serviço[/b] e a [b]Política de Privacidade[/b].[/size]",
+            markup=True,
+            halign="center",
+            theme_text_color="Secondary"
+        )
+
+        layout.add_widget(titulo)
+        layout.add_widget(self.data_nascimento)
+        layout.add_widget(self.email)
+        layout.add_widget(self.senha)
+        layout.add_widget(self.confirmar_senha)
+        layout.add_widget(termos)
+        layout.add_widget(self.botao_criar)
+
+        self.add_widget(layout)
+
+    def criar_conta(self, instancia):
+        email = self.email.text.strip()
+        senha = self.senha.text.strip()
+        confirmar = self.confirmar_senha.text.strip()
+        data = self.data_nascimento.text.strip()
+
+        if not data or not email or not senha or not confirmar:
+            self.mostrar_alerta("Por favor, preencha todos os campos.")
+            return
+
+        if "@" not in email: # o email so vai ser autorizado a se cadastrar  com o @
+            self.mostrar_alerta("E-mail inválido. Deve conter '@'.")
+            return
+
+        if senha != confirmar: # aqui vai confirmar a senha duas vezez
+            self.mostrar_alerta("As senhas não coincidem.")
+            return
+
+        if len(senha) < 6: # e a senha dve contem no minino 6 letras ou numeros
+            self.mostrar_alerta("A senha deve ter pelo menos 6 caracteres.")
+            return
+
+        self.manager.current = "tela_jogo_inicio"
+
+    def mostrar_alerta(self, mensagem):
+        dialogo = MDDialog(title="Aviso", text=mensagem, size_hint=(0.8, 0.3))
+        dialogo.open()
+
+
+# ------------------- Cartão de Estudo -------------------
+class CartaoEstudo(MDCard):
+    virado = BooleanProperty(False)
+
+    def __init__(self, pergunta, resposta, ao_mostrar_resposta=None, ao_proximo=None, **kwargs):
+        super().__init__(
+            orientation="vertical",
+            size_hint=(.9, None),
+            height=260,
+            radius=[20, 20, 20, 20],
+            elevation=8,
+            padding=25,
+            md_bg_color=(0.15, 0.17, 0.3, 1),
+            **kwargs
+        )
+        self.pergunta = pergunta
+        self.resposta = resposta
+        self.ao_mostrar_resposta = ao_mostrar_resposta
+        self.ao_proximo = ao_proximo
+
+        self.rotulo = MDLabel(
+            text=self.pergunta,
+            halign="center",
+            font_style="H6",
+            theme_text_color="Custom",
+            text_color=(1, 1, 1, 1),
+        )
+
+        self.botao_proximo = MDRaisedButton(
+            text="Próximo",
+            pos_hint={"center_x": 0.5},
+            on_release=self.proximo_cartao,
+            opacity=0,
+            disabled=True
+        )
+
+        self.add_widget(self.rotulo)
+        self.add_widget(self.botao_proximo)
+        self.bind(on_touch_down=self.ao_tocar)
+
+    def ao_tocar(self, instancia, toque):
+        if self.collide_point(*toque.pos) and not self.virado:
+            self.virar_cartao()
+            return True
+        return False
+
+    def virar_cartao(self):
+        anim = Animation(opacity=0, duration=0.15)
+        anim.bind(on_complete=self._trocar_texto)
+        anim.start(self.rotulo)
+
+    def _trocar_texto(self, animacao, widget):
+        self.rotulo.text = self.resposta
+        self.md_bg_color = (0.3, 0.2, 0.5, 1)
+        self.virado = True
+        Animation(opacity=1, duration=0.15).start(self.rotulo)
+        self.botao_proximo.disabled = False
+        Animation(opacity=1, duration=0.2).start(self.botao_proximo)
+        if self.ao_mostrar_resposta:
+            self.ao_mostrar_resposta()
+
+    def proximo_cartao(self, *args):
+        if self.ao_proximo:
+            self.ao_proximo()
+
+
+# ------------------- Tela 3: Início Flashcards -------------------
+class TelaJogoInicio(MDScreen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.index_cartao = 0
+
+        self.questoes_programacao = [
+            ("O que é um algoritmo?", "Uma sequência de passos para resolver um problema."),
+            ("O que é uma variável?", "Um espaço para armazenar dados."),
+            ("O que é uma função?", "Um bloco de código reutilizável."),
+            ("O que é um loop?", "Uma estrutura que repete um bloco de código."),
+            ("O que é programação orientada a objetos?", "Um paradigma que utiliza objetos e classes."),
+        ]
+
+        rolagem = ScrollView(size_hint=(1, 1))
+
+        layout_principal = MDBoxLayout(
+            orientation="vertical",
+            spacing=20,
+            padding=20,
+            size_hint_y=None
+        )
+        layout_principal.bind(minimum_height=layout_principal.setter("height"))
+
+        campo_busca = MDTextField(
+            hint_text="Pesquisar",
+            icon_left="magnify",
+            mode="rectangle",
+            size_hint_x=1
+        )
+        layout_principal.add_widget(campo_busca)
+
+        titulo_flashcard = MDLabel(
+            text="Cartão:",
+            halign="center",
+            font_style="H6",
+            theme_text_color="Custom",
+            text_color=(1, 1, 1, 1),
+            size_hint_y=None,
+            height=40
+        )
+        layout_principal.add_widget(titulo_flashcard)
+
+        self.centralizador_cartao = AnchorLayout(
+            anchor_x="center",
+            size_hint_y=None,
+            height=260
+        )
+
+        self.flashcard = CartaoEstudo(
+            self.questoes_programacao[self.index_cartao][0],
+            self.questoes_programacao[self.index_cartao][1],
+            ao_mostrar_resposta=None,
+            ao_proximo=self.avancar_cartao
+        )
+        self.centralizador_cartao.add_widget(self.flashcard)
+        layout_principal.add_widget(self.centralizador_cartao)
+
+        lista_cartoes = MDBoxLayout(
+            orientation="vertical",
+            spacing=20,
+            size_hint_y=None
+        )
+        lista_cartoes.bind(minimum_height=lista_cartoes.setter("height"))
+
+        def criar_opcao(texto, icone, cor, acao=None):
+            card = MDCard(
+                orientation="horizontal",
+                size_hint=(1, None),
+                height=80,
+                padding=10,
+                ripple_behavior=True,
+                md_bg_color=(0.15, 0.17, 0.3, 1),
+                radius=[15, 15, 15, 15]
+            )
+
+            botao_icone = MDIconButton(
+                icon=icone,
+                theme_text_color="Custom",
+                text_color=cor,
+                icon_size="28sp"
+            )
+
+            rotulo = MDLabel(
+                text=texto,
+                halign="left",
+                valign="center",
+                theme_text_color="Custom",
+                text_color=(1, 1, 1, 1)
+            )
+
+            box_interno = MDBoxLayout(orientation="horizontal", spacing=10)
+            box_interno.add_widget(botao_icone)
+            box_interno.add_widget(rotulo)
+            card.add_widget(box_interno)
+
+            if acao:
+                def ao_tocar(instancia, toque):
+                    if card.collide_point(*toque.pos):
+                        acao()
+                card.bind(on_touch_down=ao_tocar)
+
+            return card
+
+        lista_cartoes.add_widget(criar_opcao("Voltar para Início", "home", (0.5, 1, 0.5, 1), acao=self.voltar_inicio))
+        lista_cartoes.add_widget(criar_opcao("Ver todas as matérias", "folder", (1, 0.6, 0.2, 1)))
+        lista_cartoes.add_widget(criar_opcao("Adicionar nova tarefa", "plus", (0.2, 0.6, 1, 1)))
+
+        layout_principal.add_widget(lista_cartoes)
+
+        rolagem.add_widget(layout_principal)
+        self.add_widget(rolagem)
+
+    def avancar_cartao(self):
+        self.index_cartao += 1
+        if self.index_cartao >= len(self.questoes_programacao):
+            self.index_cartao = 0
+
+        self.centralizador_cartao.clear_widgets()
+
+        self.flashcard = CartaoEstudo(
+            self.questoes_programacao[self.index_cartao][0],
+            self.questoes_programacao[self.index_cartao][1],
+            ao_mostrar_resposta=None,
+            ao_proximo=self.avancar_cartao
+        )
+        self.centralizador_cartao.add_widget(self.flashcard)
+
+    def voltar_inicio(self):
+        self.manager.current = "tela_inicial"
+
+
+# ------------------- Tela 4: Jogo Flashcard Individual -------------------
+class TelaJogo(MDScreen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        layout = MDBoxLayout(orientation="vertical", spacing=20, padding=20)
+
+        barra_topo = MDTopAppBar(
+            elevation=0,
+            md_bg_color=(0, 0, 0, 0),
+            left_action_items=[["arrow-left", lambda x: self.voltar()]],
+            title="",
+            mode="center",
+            type="top",
+        )
+        layout.add_widget(barra_topo)
+
+        layout.add_widget(Widget(size_hint_y=None, height=25))
+
+        flashcard = CartaoEstudo("Qual a capital do Brasil?", "Brasília")
+
+        centralizador = AnchorLayout(anchor_x="center", anchor_y="center")
+        centralizador.add_widget(flashcard)
+        layout.add_widget(centralizador)
+        layout.add_widget(Widget())
+
+        self.add_widget(layout)
+
+    def voltar(self):
+        self.manager.current = "tela_jogo_inicio"
+
+
+# ------------------- App Principal -------------------
+class AplicativoCartoes(MDApp):
+    def build(self):
+        self.theme_cls.primary_palette = "Indigo"
+        self.theme_cls.theme_style = "Dark"
+
+        gerenciador = ScreenManager(transition=FadeTransition())
+        gerenciador.add_widget(TelaInicial(name="tela_inicial"))
+        gerenciador.add_widget(TelaCadastro(name="tela_cadastro"))
+        gerenciador.add_widget(TelaJogoInicio(name="tela_jogo_inicio"))
+        gerenciador.add_widget(TelaJogo(name="tela_jogo"))
+        gerenciador.current = "tela_inicial"
+        return gerenciador
+
+
+if __name__ == "__main__":
+    AplicativoCartoes().run()
