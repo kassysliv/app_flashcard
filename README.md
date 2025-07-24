@@ -57,13 +57,6 @@ Aplicativo educacional interativo desenvolvido para a 2ª Verificação de Apren
 
 ---
 
-## 👨‍💻 Desenvolvedor
-
-- **Nome:** Kassiane Gomes da Silva  
-- **Professor:** Cleyton  
-
----
-
 ## 🧠 Detalhamento do Aplicativo e Validações
 
 O **FlashCards App** é uma aplicação educacional pensada para facilitar o aprendizado através de cartões interativos de perguntas e respostas, permitindo que o aluno revise matérias de forma prática e divertida. A experiência do usuário é organizada, intuitiva e adaptada ao uso em dispositivos móveis.
