@@ -33,7 +33,7 @@ Aplicativo educacional interativo desenvolvido para a 2ª Verificação de Apren
 ## 📸 Screenshots
 
 ### 🏠 Tela Inicial  
-![Tela Inicial](screenshots/tela_inicial.png)
+![Tela Inicial](https://github.com/kassysliv/app_flashcard/commit/6d65afb3e36e50daf14c7980338bfc8b5d7dc8dc)
 
 ### 📝 Tela de Cadastro  
 ![Tela Cadastro](screenshots/tela_cadastro.png)
