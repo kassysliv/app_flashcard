@@ -48,6 +48,7 @@ O app inicia com um formulário simples e validado:
 - Botão **“Próximo”** para avançar na revisão
 - Cartões embaralhados e sequenciais
 - 25 questões iniciais em 5 disciplinas:
+- obs: só coloquei essa quantidade para ficar harmônico 
 
 | Disciplina     | Nº de Perguntas |
 |----------------|-----------------|
