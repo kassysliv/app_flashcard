@@ -1,4 +1,4 @@
-# 🎓 FlashCards – Aplicativo Educacional | 2ª Verificação de Aprendizagem
+# 🎓 FlashCards – Aplicativo Educacional | 2ªV.A
 
 > Um app interativo para estudar com eficiência usando **flashcards personalizados por matéria**. Desenvolvido como parte da 2ª VA, este projeto alia tecnologia, design e educação para promover **aprendizado dinâmico, organizado e intuitivo**.
 
@@ -6,7 +6,9 @@
 
 ## 📱 Visão Geral
 
-O **FlashCards App** é uma ferramenta educacional desenvolvida com **Kivy** e **KivyMD**, voltada para estudantes que desejam revisar conteúdos com praticidade. Ele oferece recursos como criação de matérias, estudo com cartões interativos e uma interface moderna adaptada para dispositivos móveis.
+O **FlashCards App** é uma ferramenta educacional desenvolvida com **Kivy** e **KivyMD**, voltada para estudantes que desejam revisar conteúdos com praticidade. Ele oferece recursos como criação de matérias, estudo com cartões interativos e uma interface moderna adaptada para dispositivos móveis.. O FlashCards App oferece uma maneira divertida, moderna e eficiente de estudar por meio de cartões interativos, organizados por matérias. Com navegação intuitiva, validações inteligentes e uma interface responsiva.
+
+
 
 ---
 
@@ -140,4 +142,20 @@ Utiliza `JsonStore` do Kivy para:
 - ✅ Suporte ao **modo escuro**  
 - ✅ Código bem organizado com separação de telas e lógica  
 
----
+---🎓 Observações Finais
+
+O FlashCards App foi desenvolvido com foco na experiência do usuário e na eficácia do estudo. Com validações cuidadosas, transições suaves e armazenamento simples, o aplicativo oferece uma solução prática para estudantes que desejam revisar conteúdos de forma divertida e personalizada.
+
+Ideal para uso escolar, revisões rápidas ou como ferramenta de apoio ao ensino!
+
+
+
+AplicativoCartoes/
+├── main.py                  # Arquivo principal da aplicação (ponto de entrada)
+├── README.md                # Documentação do projeto
+└── screenshots/             # Imagens utilizadas no README
+    ├── tela_inicial.png
+    ├── tela_cadastro.png
+    ├── tela_flashcard.png
+    ├── tela_adicionar_materia.png
+    └── tela_materias.png
