@@ -36,16 +36,19 @@ Aplicativo educacional interativo desenvolvido para a 2ª Verificação de Apren
 ![Tela Inicial](https://github.com/kassysliv/app_flashcard/commit/6d65afb3e36e50daf14c7980338bfc8b5d7dc8dc)
 
 ### 📝 Tela de Cadastro  
-![Tela Cadastro](screenshots/tela_cadastro.png)
+![Tela Cadastro](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/dados%20do%20cadastro.png)
+  
 
 ### 🎴 Tela de Estudo com Flashcard  
-![Tela Flashcard](screenshots/tela_flashcard.png)
+![Tela Flashcard](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20das%20funcoes.png,)
+![Tela Flashcard](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20das%20funcoes%20(2).png)
 
 ### ➕ Tela de Adicionar Matéria  
-![Adicionar Matéria](screenshots/tela_adicionar_materia.png)
-
+![Adicionar Matéria](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20de%20adicionar%20materias.png)
+![Adicionar Matéria](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20de%20adicionar%20materia.png)
 ### 📂 Tela de Visualização de Matérias  
-![Tela Matérias](screenshots/tela_materias.png)
+![Tela Matérias](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/adicionar%20materia%20.png)
+![Tela Matérias](resultado)
 
 > ⚠️ As imagens devem estar na pasta `screenshots/` na raiz do seu repositório para aparecerem corretamente.
 
