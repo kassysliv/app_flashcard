@@ -48,9 +48,9 @@ Aplicativo educacional interativo desenvolvido para a 2ª Verificação de Apren
 ![Adicionar Matéria](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20de%20adicionar%20materia.png)
 ### 📂 Tela de Visualização de Matérias  
 ![Tela Matérias](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/adicionar%20materia%20.png)
-![Tela Matérias](resultado)
+![Tela Matérias](https://github.com/kassysliv/app_flashcard/commit/350a9be4c3ef0c3f38ccba17c5796a8784c40ad5)
 
-> ⚠️ As imagens devem estar na pasta `screenshots/` na raiz do seu repositório para aparecerem corretamente.
+> ⚠️ As imagens devem estar na pasta `screenshots` na raiz do seu repositório para aparecerem corretamente.
 
 ---
 
