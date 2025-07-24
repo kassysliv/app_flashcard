@@ -53,7 +53,7 @@ Aplicativo educacional interativo desenvolvido para a 2ª Verificação de Apren
 
 ## 🔗 Link do Projeto
 
-[🔗 Clique aqui para acessar o repositório no GitHub](https://github.com/seu-usuario/seu-repositorio)
+[🔗 Clique aqui para acessar o repositório no GitHub](https://github.com/kassysliv/app_flashcard/commit/b1e8aec74b782ce58c0cd0d792a94a9fc8c7f868)
 
 ---
 
