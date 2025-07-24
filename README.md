@@ -69,6 +69,7 @@ Na primeira execução, o usuário deve preencher um pequeno formulário para co
 - **E-mail**
 - **Senha**
 - **Confirmação da senha**
+- **Data**
 
 #### ✅ Validações automáticas:
 
@@ -76,6 +77,7 @@ Na primeira execução, o usuário deve preencher um pequeno formulário para co
 - **Senha**: Deve ter no mínimo 6 caracteres.  
 - **Confirmação de senha**: Deve ser idêntica à senha anterior.  
 - **Campos obrigatórios**: Se qualquer campo estiver em branco, o app alerta o usuário com mensagens claras e objetivas.
+- **Data de nascmento**: Deve conter / para separar os valores 
 
 Essas validações garantem que o usuário tenha uma experiência segura, sem erros no preenchimento.
 
