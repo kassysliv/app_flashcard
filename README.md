@@ -1,142 +1,142 @@
-# 📚 FlashCards – 2ª VA
+# 🎓 FlashCards – Aplicativo Educacional | 2ª Verificação de Aprendizagem
 
-Aplicativo educacional interativo desenvolvido para a 2ª Verificação de Aprendizagem. Com ele, é possível estudar utilizando flashcards personalizados por matéria. O app incentiva o aprendizado dinâmico e organizado.
-
----
-
-## ✅ Funcionalidades Implementadas
-
-- ✅ Tela inicial com introdução  
-- ✅ Tela de cadastro com validações (e-mail, senha, confirmação)  
-- ✅ Cadastro de data de nascimento  
-- ✅ Estudo com flashcards interativos (virar para ver a resposta)  
-- ✅ Flashcards pré-carregados por disciplina (Português, Matemática, História, etc.)  
-- ✅ Avanço de flashcards com botão "Próximo"  
-- ✅ Adição de novas matérias com perguntas e respostas personalizadas  
-- ✅ Visualização de todas as matérias cadastradas e seus flashcards  
-- ✅ Navegação entre telas com transições suaves  
-- ✅ Suporte a modo escuro com layout adaptado para celular  
-- ✅ Armazenamento local básico com `JsonStore`  
+> Um app interativo para estudar com eficiência usando **flashcards personalizados por matéria**. Desenvolvido como parte da 2ª VA, este projeto alia tecnologia, design e educação para promover **aprendizado dinâmico, organizado e intuitivo**.
 
 ---
 
-## 🧰 Bibliotecas Utilizadas
+## 📱 Visão Geral
 
-- [Kivy](https://kivy.org/) – Framework de interfaces gráficas  
-- [KivyMD](https://kivymd.readthedocs.io/) – Componentes Material Design para Kivy  
-- [JsonStore (Kivy)](https://kivy.org/doc/stable/api-kivy.storage.jsonstore.html) – Armazenamento local simples  
-- Widgets e layouts:  
-  - `MDBoxLayout`, `MDLabel`, `MDTextField`, `MDRaisedButton`, `MDTopAppBar`, `MDCard`, `ScrollView`, `AnchorLayout`  
+O **FlashCards App** é uma ferramenta educacional desenvolvida com **Kivy** e **KivyMD**, voltada para estudantes que desejam revisar conteúdos com praticidade. Ele oferece recursos como criação de matérias, estudo com cartões interativos e uma interface moderna adaptada para dispositivos móveis.
 
 ---
 
-## 📸 Screenshots
+## ✅ Funcionalidades
+
+- 👋 Tela de **boas-vindas** com introdução  
+- 📝 Tela de **cadastro** com validações completas  
+- 🎂 Campo de **data de nascimento** com validação  
+- 🎴 Estudo com **flashcards interativos** (toque para revelar a resposta)  
+- 📚 **Flashcards pré-carregados** por disciplina (Português, Matemática, etc.)  
+- ⏭️ Botão **“Próximo”** para avançar no estudo  
+- ➕ Adição de **matérias personalizadas** com perguntas e respostas  
+- 👁️ Visualização de todas as matérias cadastradas  
+- 🔄 Navegação suave entre telas com transições animadas  
+- 🌙 Suporte ao **modo escuro**  
+- 💾 Armazenamento local com `JsonStore` para persistência dos dados  
+
+---
+
+## 🧠 Experiência do Usuário
+
+### 📝 Cadastro com Validações
+
+O app inicia com um formulário simples e validado:
+
+| Campo                 | Validação                               |
+|----------------------|------------------------------------------|
+| 📧 E-mail            | Deve conter `@` e `.`                    |
+| 🔑 Senha             | Mínimo de 6 caracteres                   |
+| 🔁 Confirmação senha | Deve ser igual à senha                   |
+| 📅 Data de nascimento| Deve conter `/` no formato (dd/mm/aaaa)  |
+| 🚫 Campos vazios     | Exibem alertas claros e objetivos        |
+
+---
+
+### 🎴 Estudo com Flashcards
+
+- Exibição de uma **pergunta na frente** e **resposta no verso**
+- Botão **“Próximo”** para avançar na revisão
+- Cartões embaralhados e sequenciais
+- 25 questões iniciais em 5 disciplinas:
+
+| Disciplina     | Nº de Perguntas |
+|----------------|-----------------|
+| Português      | 5               |
+| Matemática     | 5               |
+| História       | 5               |
+| Geografia      | 5               |
+| Ciências       | 5               |
+
+---
+
+### ➕ Adicionar Matérias
+
+Você pode:
+
+1. Criar novas matérias com nome personalizado  
+2. Adicionar diversas perguntas e respostas  
+3. Salvar e começar a estudar imediatamente  
+
+> 🛡️ O app bloqueia cadastros vazios para garantir integridade nos dados.
+
+---
+
+### 📂 Visualização e Gerenciamento
+
+- Listagem de **todas as matérias** criadas  
+- Opção de **visualizar perguntas e respostas**  
+- Botão de **excluir matéria** com remoção direta dos dados  
+
+---
+
+## 💾 Armazenamento
+
+Utiliza `JsonStore` do Kivy para:
+
+- Verificar se o usuário já está cadastrado  
+- Armazenar dados essenciais de maneira leve e eficiente  
+- Manter dados enquanto o app estiver em uso (sem banco de dados externo)  
+
+---
+
+## 🧰 Tecnologias Utilizadas
+
+| Tecnologia | Descrição |
+|------------|-----------|
+| [Kivy](https://kivy.org/) | Framework Python para interfaces gráficas multiplataforma |
+| [KivyMD](https://kivymd.readthedocs.io/) | Componentes Material Design para Kivy |
+| [JsonStore](https://kivy.org/doc/stable/api-kivy.storage.jsonstore.html) | Armazenamento local em JSON simples |
+| Layouts e Widgets | `MDBoxLayout`, `MDCard`, `MDTopAppBar`, `MDLabel`, `MDTextField`, `ScrollView`, etc. |
+
+---
+
+## 📸 Imagens do App
 
 ### 🏠 Tela Inicial  
 ![Tela Inicial](https://github.com/kassysliv/app_flashcard/commit/6d65afb3e36e50daf14c7980338bfc8b5d7dc8dc)
 
 ### 📝 Tela de Cadastro  
 ![Tela Cadastro](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/dados%20do%20cadastro.png)
-  
 
-### 🎴 Tela de Estudo com Flashcard  
-![Tela Flashcard](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20das%20funcoes.png,)
-![Tela Flashcard](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20das%20funcoes%20(2).png)
+### 🎴 Estudo com Flashcards  
+![Flashcards](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20das%20funcoes.png)  
+![Flashcards 2](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20das%20funcoes%20(2).png)
 
-### ➕ Tela de Adicionar Matéria  
-![Adicionar Matéria](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20de%20adicionar%20materias.png)
-![Adicionar Matéria](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20de%20adicionar%20materia.png)
-### 📂 Tela de Visualização de Matérias  
-![Tela Matérias](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/adicionar%20materia%20.png)
-![Tela Matérias](https://github.com/kassysliv/app_flashcard/commit/350a9be4c3ef0c3f38ccba17c5796a8784c40ad5)
+### ➕ Adicionar Matéria  
+![Adicionar 1](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20de%20adicionar%20materias.png)  
+![Adicionar 2](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/tela%20de%20adicionar%20materia.png)
 
-> ⚠️ As imagens devem estar na pasta `screenshots` na raiz do seu repositório para aparecerem corretamente.
+### 📂 Visualizar Matérias  
+![Matérias](https://github.com/kassysliv/app_flashcard/blob/INICIO_EM_HTML/adicionar%20materia%20.png)  
+![Matérias 2](https://github.com/kassysliv/app_flashcard/commit/350a9be4c3ef0c3f38ccba17c5796a8784c40ad5)
 
----
 
-## 🔗 Link do Projeto
-
-[🔗 Clique aqui para acessar o repositório no GitHub](https://github.com/kassysliv/app_flashcard/commit/b1e8aec74b782ce58c0cd0d792a94a9fc8c7f868)
 
 ---
 
-## 🧠 Detalhamento do Aplicativo e Validações
+## 🔗 Repositório no GitHub
 
-O **FlashCards App** é uma aplicação educacional pensada para facilitar o aprendizado através de cartões interativos de perguntas e respostas, permitindo que o aluno revise matérias de forma prática e divertida. A experiência do usuário é organizada, intuitiva e adaptada ao uso em dispositivos móveis.
-
-### 📝 Cadastro e Campos de Entrada
-
-Na primeira execução, o usuário deve preencher um pequeno formulário para começar a usar o app. Os campos são:
-
-- **Data de nascimento**
-- **E-mail**
-- **Senha**
-- **Confirmação da senha**
-- **Data**
-
-#### ✅ Validações automáticas:
-
-- **E-mail**: Verificação se contém `@` e `.`, impedindo entrada de formatos inválidos.  
-- **Senha**: Deve ter no mínimo 6 caracteres.  
-- **Confirmação de senha**: Deve ser idêntica à senha anterior.  
-- **Campos obrigatórios**: Se qualquer campo estiver em branco, o app alerta o usuário com mensagens claras e objetivas.
-- **Data de nascmento**: Deve conter / para separar os valores 
-
-Essas validações garantem que o usuário tenha uma experiência segura, sem erros no preenchimento.
+📎 [Acesse aqui o repositório completo](https://github.com/kassysliv/app_flashcard)
 
 ---
 
-### 🎴 Estudo com Flashcards
+## ✨ Diferenciais do Projeto
 
-Após o cadastro, o usuário pode estudar por meio de flashcards que mostram uma **pergunta** na frente e revelam a **resposta** ao toque. O botão **“Próximo”** permite seguir para o próximo cartão, promovendo revisão sequencial.
-
-O app já vem com **25 questões distribuídas em 5 disciplinas**:
-
-- Português  
-- Matemática  
-- História  
-- Geografia  
-- Ciências  
-
-Os cartões são embaralhados e o estudo é contínuo.
+- ✅ Interface moderna com **Material Design**
+- ✅ Navegação fluida entre telas  
+- ✅ Estudo dinâmico com flashcards clicáveis  
+- ✅ Validações em tempo real para evitar erros de uso  
+- ✅ Suporte ao **modo escuro**  
+- ✅ Código bem organizado com separação de telas e lógica  
 
 ---
-
-### ➕ Cadastro de Matérias Personalizadas
-
-O usuário também pode:
-
-1. Criar novas matérias  
-2. Inserir quantas perguntas e respostas quiser  
-3. Salvar a matéria, que é adicionada à lista de estudo  
-
-O app impede o cadastro de perguntas ou matérias vazias, garantindo organização e coerência nos dados salvos.
-
----
-
-### 📂 Visualização e Gerenciamento
-
-Na aba de visualização, o usuário encontra uma lista de todas as matérias personalizadas criadas. Cada matéria pode ser:
-
-- Visualizada com todas as suas perguntas e respostas  
-- Removida com um botão específico, que exclui seus dados da memória  
-
----
-
-### 💾 Armazenamento e Lógica
-
-O app usa `JsonStore` para armazenar dados simples, como saber se o usuário já se cadastrou. As matérias e flashcards são mantidos em listas e dicionários dentro da aplicação, permitindo um funcionamento leve e eficiente.
-
----
-
-### ✨ Diferenciais
-
-- Interface Material Design com KivyMD  
-- Navegação por cartões com botões visuais  
-- Validações em tempo real para evitar erros  
-- Suporte a modo escuro  
-- Organização intuitiva entre telas  
-- Estudo dinâmico que respeita o ritmo do aluno  
-
----
-
