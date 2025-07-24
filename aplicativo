@@ -1,8 +1,8 @@
-from kivymd.app import MDApp #importacao das bibliotecas em kivymd
+from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.label import MDLabel
 from kivymd.uix.textfield import MDTextField
-from kivymd.uix.button import MDRaisedButton, MDIconButton
+from kivymd.uix.button import MDRaisedButton,MDIconButton
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.toolbar import MDTopAppBar
 from kivymd.uix.dialog import MDDialog
@@ -14,10 +14,14 @@ from kivy.uix.widget import Widget
 from kivy.properties import BooleanProperty
 from kivy.animation import Animation
 from kivymd.uix.card import MDCard
-#tamanho da tela para simular uma tela de celular
+from kivy.storage.jsonstore import JsonStore
+
+
+
+# Tamanho da tela para simular celular
 Window.size = (360, 640)
 
-#tela inicial aonde contem layout principal o titulo, a frase motivacional
+# ------------------- Tela Inicial -------------------
 class TelaInicial(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -61,9 +65,7 @@ class TelaInicial(MDScreen):
     def ir_para_cadastro(self, instancia):
         self.manager.current = "tela_cadastro"
 
-
-# a tela 2 é a tela do cadrasto aonde fica, o campo de entrada para usuario
-#botao de criar a conta, tambem tem a validacao da conta
+# ------------------- Tela Cadastro -------------------
 class TelaCadastro(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -88,8 +90,12 @@ class TelaCadastro(MDScreen):
         self.email = MDTextField(
             hint_text="E-mail",
             icon_right="email",
-            mode="rectangle"
+            mode="rectangle",
+            helper_text="Digite um e-mail válido (ex: nome@dominio.com)",
+            helper_text_mode="on_error"
         )
+        # 🚨 Corrigido: bind usado após definição do widget
+        self.email.bind(text=self.validar_email_em_tempo_real)
 
         self.senha = MDTextField(
             hint_text="Senha",
@@ -128,6 +134,16 @@ class TelaCadastro(MDScreen):
 
         self.add_widget(layout)
 
+    def validar_email_em_tempo_real(self, instance, texto):
+        if "@" in texto and "." in texto:
+            instance.error = False
+            instance.helper_text = "E-mail válido"
+            instance.helper_text_mode = "on_focus"
+        else:
+            instance.error = True
+            instance.helper_text = "E-mail inválido. Deve conter '@' e '.'"
+            instance.helper_text_mode = "on_error"
+
     def criar_conta(self, instancia):
         email = self.email.text.strip()
         senha = self.senha.text.strip()
@@ -138,15 +154,15 @@ class TelaCadastro(MDScreen):
             self.mostrar_alerta("Por favor, preencha todos os campos.")
             return
 
-        if "@" not in email: # o email so vai ser autorizado a se cadastrar  com o @
-            self.mostrar_alerta("E-mail inválido. Deve conter '@'.")
+        if "@" not in email or "." not in email:
+            self.mostrar_alerta("E-mail inválido. Deve conter '@' e '.'")
             return
 
-        if senha != confirmar: # aqui vai confirmar a senha duas vezez
+        if senha != confirmar:
             self.mostrar_alerta("As senhas não coincidem.")
             return
 
-        if len(senha) < 6: # e a senha dve contem no minino 6 letras ou numeros
+        if len(senha) < 6:
             self.mostrar_alerta("A senha deve ter pelo menos 6 caracteres.")
             return
 
@@ -222,8 +238,7 @@ class CartaoEstudo(MDCard):
         if self.ao_proximo:
             self.ao_proximo()
 
-
-# ------------------- Tela 3: Início Flashcards -------------------
+# ------------------- Tela Jogo Início -------------------
 class TelaJogoInicio(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -236,6 +251,42 @@ class TelaJogoInicio(MDScreen):
             ("O que é uma função?", "Um bloco de código reutilizável."),
             ("O que é um loop?", "Uma estrutura que repete um bloco de código."),
             ("O que é programação orientada a objetos?", "Um paradigma que utiliza objetos e classes."),
+
+            # Matemática
+            ("Qual é a fórmula da área do triângulo?", "Base vezes altura dividido por dois."),
+            ("O que é um número primo?", "Um número maior que 1 que só é divisível por 1 e por ele mesmo."),
+            ("Qual é a raiz quadrada de 64?", "8"),
+            ("Quanto é 7 x 8?", "56"),
+            ("O que é fração?", "Uma parte de um inteiro."),
+
+            # História
+            ("Quem foi Tiradentes?", "Um dos líderes da Inconfidência Mineira."),
+            ("O que foi a Revolução Francesa?", "Um movimento que derrubou a monarquia na França em 1789."),
+            ("Quem descobriu o Brasil?", "Pedro Álvares Cabral."),
+            ("Quando aconteceu a Independência do Brasil?", "7 de setembro de 1822."),
+            ("O que foi a escravidão?",
+             "Sistema onde pessoas eram tratadas como propriedade e forçadas a trabalhar sem liberdade."),
+
+            # Geografia
+            ("Qual é o maior país do mundo?", "Rússia."),
+            ("Qual é o rio mais extenso do mundo?", "Rio Amazonas."),
+            ("O que é um continente?", "Uma grande extensão de terra cercada por oceanos."),
+            ("Quais são os pontos cardeais?", "Norte, Sul, Leste e Oeste."),
+            ("Qual é o maior deserto do mundo?", "Deserto da Antártida."),
+
+            # Ciências
+            ("Qual é o maior órgão do corpo humano?", "A pele."),
+            ("Qual é a função do coração?", "Bombear sangue para o corpo todo."),
+            ("O que é a fotossíntese?", "Processo em que plantas transformam luz solar em alimento."),
+            ("O que é célula?", "A menor unidade funcional dos seres vivos."),
+            ("O que é o sistema nervoso?", "Sistema que controla as funções do corpo e transmite sinais."),
+
+            # Português
+            ("O que é um verbo?", "Palavra que indica ação, estado ou fenômeno."),
+            ("O que é um substantivo?", "Palavra que dá nome a seres, objetos, lugares ou sentimentos."),
+            ("Qual é o antônimo de 'feliz'?", "Triste."),
+            ("O que é um adjetivo?", "Palavra que caracteriza um substantivo."),
+            ("O que é um sinônimo?", "Palavra com significado parecido ou igual a outra."),
         ]
 
         rolagem = ScrollView(size_hint=(1, 1))
@@ -329,8 +380,8 @@ class TelaJogoInicio(MDScreen):
             return card
 
         lista_cartoes.add_widget(criar_opcao("Voltar para Início", "home", (0.5, 1, 0.5, 1), acao=self.voltar_inicio))
-        lista_cartoes.add_widget(criar_opcao("Ver todas as matérias", "folder", (1, 0.6, 0.2, 1)))
-        lista_cartoes.add_widget(criar_opcao("Adicionar nova tarefa", "plus", (0.2, 0.6, 1, 1)))
+        lista_cartoes.add_widget(criar_opcao("Ver todas as matérias", "folder", (1, 0.6, 0.2, 1), acao=self.ir_para_tela_materias))
+        lista_cartoes.add_widget(criar_opcao("Adicionar nova matéria", "plus", (0.2, 0.6, 1, 1), acao=self.ir_para_adicionar_materia))
 
         layout_principal.add_widget(lista_cartoes)
 
@@ -355,8 +406,217 @@ class TelaJogoInicio(MDScreen):
     def voltar_inicio(self):
         self.manager.current = "tela_inicial"
 
+    def ir_para_tela_materias(self):
+        self.manager.current = "tela_materias"
 
-# ------------------- Tela 4: Jogo Flashcard Individual -------------------
+    def ir_para_adicionar_materia(self):
+        self.manager.current = "tela_adicionar_materia"
+
+# ------------------- Tela Adicionar Matéria -------------------
+class TelaAdicionarMateria(MDScreen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        layout = MDBoxLayout(orientation="vertical", padding=30, spacing=20)
+
+        titulo = MDLabel(
+            text="Adicionar Matéria",
+            halign="center",
+            font_style="H5",
+            bold=True,
+        )
+
+        self.campo_materia = MDTextField(
+            hint_text="Nome da matéria",
+            mode="rectangle"
+        )
+
+        # Novos campos para pergunta e resposta
+        self.campo_pergunta = MDTextField(
+            hint_text="Pergunta do flashcard",
+            mode="rectangle"
+        )
+        self.campo_resposta = MDTextField(
+            hint_text="Resposta do flashcard",
+            mode="rectangle"
+        )
+
+        botao_adicionar_flashcard = MDRaisedButton(
+            text="Adicionar Pergunta/Resposta",
+            pos_hint={"center_x": 0.5},
+            on_release=self.adicionar_flashcard
+        )
+
+        botao_salvar = MDRaisedButton(
+            text="Salvar Matéria",
+            pos_hint={"center_x": 0.5},
+            on_release=self.salvar_materia
+        )
+
+        botao_voltar = MDRaisedButton(
+            text="Voltar",
+            pos_hint={"center_x": 0.5},
+            on_release=self.voltar_tela_anterior
+        )
+
+        layout.add_widget(titulo)
+        layout.add_widget(self.campo_materia)
+        layout.add_widget(self.campo_pergunta)
+        layout.add_widget(self.campo_resposta)
+        layout.add_widget(botao_adicionar_flashcard)
+        layout.add_widget(botao_salvar)
+        layout.add_widget(botao_voltar)
+
+        self.add_widget(layout)
+
+        # Lista temporária de flashcards para essa matéria
+        self.flashcards = []
+
+    def adicionar_flashcard(self, instancia):
+        pergunta = self.campo_pergunta.text.strip()
+        resposta = self.campo_resposta.text.strip()
+        if not pergunta or not resposta:
+            MDDialog(title="Aviso", text="Digite a pergunta e a resposta.", size_hint=(0.8, 0.3)).open()
+            return
+        self.flashcards.append((pergunta, resposta))
+        self.campo_pergunta.text = ""
+        self.campo_resposta.text = ""
+        MDDialog(title="Sucesso", text="Pergunta/Resposta adicionada!", size_hint=(0.8, 0.3)).open()
+
+    def salvar_materia(self, instancia):
+        materia = self.campo_materia.text.strip()
+        if not materia:
+            MDDialog(title="Aviso", text="Digite o nome da matéria.", size_hint=(0.8, 0.3)).open()
+            return
+
+        app = MDApp.get_running_app()
+        if materia not in app.materias_flashcards:
+            app.materias_flashcards[materia] = []
+        app.materias_flashcards[materia].extend(self.flashcards)
+        if materia not in app.lista_materias:
+            app.lista_materias.append(materia)
+
+        self.campo_materia.text = ""
+        self.flashcards = []
+
+        # Opcional: Mensagem de sucesso
+        MDDialog(title="Sucesso", text=f"Matéria '{materia}' adicionada.", size_hint=(0.8, 0.3)).open()
+
+    def voltar_tela_anterior(self, instancia):
+        self.manager.current = "tela_jogo_inicio"
+
+# ------------------- Tela Matérias -------------------
+from kivymd.uix.button import MDIconButton  # Certifique-se que está importado
+
+class TelaMaterias(MDScreen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.layout_principal = MDBoxLayout(orientation="vertical", padding=30, spacing=20)
+
+        titulo = MDLabel(
+            text="Matérias",
+            halign="center",
+            font_style="H5",
+            bold=True,
+        )
+
+        self.container_lista = MDBoxLayout(
+            orientation="vertical",
+            spacing=10,
+            size_hint_y=None
+        )
+        self.container_lista.bind(minimum_height=self.container_lista.setter("height"))
+
+        scroll = ScrollView()
+        scroll.add_widget(self.container_lista)
+
+        botao_voltar = MDRaisedButton(
+            text="Voltar",
+            pos_hint={"center_x": 0.5},
+            on_release=self.voltar_tela_anterior
+        )
+
+        self.layout_principal.add_widget(titulo)
+        self.layout_principal.add_widget(scroll)
+        self.layout_principal.add_widget(botao_voltar)
+
+        self.add_widget(self.layout_principal)
+
+    def on_pre_enter(self, *args):
+        self.atualizar_lista()
+
+    def atualizar_lista(self):
+        self.container_lista.clear_widgets()
+        app = MDApp.get_running_app()
+        for materia in app.lista_materias:
+            flashcards = app.materias_flashcards.get(materia, [])
+
+            # Card da matéria com botão de deletar
+            card = MDCard(
+                size_hint_y=None,
+                height=80 + len(flashcards) * 70,
+                radius=[10, 10, 10, 10],
+                padding=10,
+                md_bg_color=(0.25, 0.25, 0.5, 1),
+                orientation="vertical"
+            )
+
+            # Linha superior: nome da matéria + botão deletar
+            linha_topo = MDBoxLayout(orientation="horizontal", size_hint_y=None, height=40)
+            label = MDLabel(
+                text=materia,
+                halign="left",
+                valign="middle",
+                theme_text_color="Custom",
+                text_color=(1, 1, 1, 1),
+                font_style="H6"
+            )
+            botao_remover = MDIconButton(
+                icon="delete",
+                theme_text_color="Custom",
+                text_color=(1, 0.4, 0.4, 1),
+                on_release=lambda x, m=materia: self.remover_materia(m)
+            )
+            linha_topo.add_widget(label)
+            linha_topo.add_widget(botao_remover)
+            card.add_widget(linha_topo)
+
+            # Adicionar perguntas e respostas (resposta abaixo da pergunta)
+            for pergunta, resposta in flashcards:
+                pergunta_label = MDLabel(
+                    text=f"• {pergunta}",
+                    halign="left",
+                    theme_text_color="Custom",
+                    text_color=(1, 1, 1, 1),
+                    font_style="Body1"
+                )
+                resposta_label = MDLabel(
+                    text=f"  → {resposta}",
+                    halign="left",
+                    theme_text_color="Custom",
+                    text_color=(0.8, 1, 0.8, 1),
+                    font_style="Body2"
+                )
+                card.add_widget(pergunta_label)
+                card.add_widget(resposta_label)
+
+            self.container_lista.add_widget(card)
+
+    def remover_materia(self, nome_materia):
+        app = MDApp.get_running_app()
+        if nome_materia in app.lista_materias:
+            app.lista_materias.remove(nome_materia)
+        if nome_materia in app.materias_flashcards:
+            del app.materias_flashcards[nome_materia]
+        self.atualizar_lista()
+
+    def voltar_tela_anterior(self, instancia):
+        self.manager.current = "tela_jogo_inicio"
+
+
+
+# ------------------- Tela Jogo Flashcard Individual -------------------
 class TelaJogo(MDScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -387,20 +647,30 @@ class TelaJogo(MDScreen):
     def voltar(self):
         self.manager.current = "tela_jogo_inicio"
 
-
 # ------------------- App Principal -------------------
 class AplicativoCartoes(MDApp):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.lista_materias = []  # Lista global para armazenar matérias
+        self.materias_flashcards = {}  # {"materia": [(pergunta, resposta), ...]}
+        self.store = JsonStore(" usuario.json")
     def build(self):
         self.theme_cls.primary_palette = "Indigo"
         self.theme_cls.theme_style = "Dark"
 
-        gerenciador = ScreenManager(transition=FadeTransition())
-        gerenciador.add_widget(TelaInicial(name="tela_inicial"))
-        gerenciador.add_widget(TelaCadastro(name="tela_cadastro"))
-        gerenciador.add_widget(TelaJogoInicio(name="tela_jogo_inicio"))
-        gerenciador.add_widget(TelaJogo(name="tela_jogo"))
-        gerenciador.current = "tela_inicial"
-        return gerenciador
+        self.gerenciador = ScreenManager(transition=FadeTransition())
+        self.gerenciador.add_widget(TelaInicial(name="tela_inicial"))
+        self.gerenciador.add_widget(TelaCadastro(name="tela_cadastro"))
+        self.gerenciador.add_widget(TelaJogoInicio(name="tela_jogo_inicio"))
+        self.gerenciador.add_widget(TelaJogo(name="tela_jogo"))
+        self.gerenciador.add_widget(TelaAdicionarMateria(name="tela_adicionar_materia"))
+        self.gerenciador.add_widget(TelaMaterias(name="tela_materias"))
+
+        if self.store.exists("usuario"):
+            self.gerenciador.current = "tela_jogo_inicio"
+        else:
+            self.gerenciador.current = "tela_inicial"
+        return self.gerenciador
 
 
 if __name__ == "__main__":
