@@ -150,12 +150,3 @@ Ideal para uso escolar, revisões rápidas ou como ferramenta de apoio ao ensino
 
 
 
-AplicativoCartoes/
-├── main.py                  # Arquivo principal da aplicação (ponto de entrada)
-├── README.md                # Documentação do projeto
-└── screenshots/             # Imagens utilizadas no README
-    ├── tela_inicial.png
-    ├── tela_cadastro.png
-    ├── tela_flashcard.png
-    ├── tela_adicionar_materia.png
-    └── tela_materias.png
